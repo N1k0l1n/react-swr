@@ -1,5 +1,6 @@
 import React from "react";
 import useSWR, { SWRConfig } from "swr";
+import './App.css'
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
@@ -33,29 +34,50 @@ function DisplayProducts({ products, categories }) {
     ? products.filter(product => product.category === filterCategory)
     : products;
 
-  return (
-    <>
-      {categories.map(category => (
-        <button
-          onClick={() => {
-            setFilterCategory(category);
-          }}
-          key={category}
-        >
-          {category}
-        </button>
-      ))}
-      {filterCategory && (
-        <button
-          onClick={() => {
-            setFilterCategory(null);
-          }}
-        >
-          reset
-        </button>
-      )}
-
-      <pre>{JSON.stringify(filteredProducts, null, 2)}</pre>
-    </>
-  );
-}
+    return (
+      <>
+        <div>
+          {categories.map(category => (
+            <button
+              onClick={() => {
+                setFilterCategory(category);
+              }}
+              key={category}
+            >
+              {category}
+            </button>
+          ))}
+          {filterCategory && (
+            <button
+              onClick={() => {
+                setFilterCategory(null);
+              }}
+            >
+              reset
+            </button>
+          )}
+        </div>
+  
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              {/* Add more table headers as needed */}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProducts.map(product => (
+              <tr key={product.id}>
+                <td>{product.title}</td>
+                <td>{product.category}</td>
+                <td>{product.price}</td>
+                {/* Add more table cells for other properties */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    );
+  }
